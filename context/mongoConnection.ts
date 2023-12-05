@@ -19,8 +19,8 @@ async function createMongoConnection() {
 }
 
 const addCollections = (db: Db) => {
-  collections.proyectos = db.collection(
-    process.env.MONGO_DB_COLLECTION_PERIODISTAS || "periodistas"
+  collections.noticias = db.collection(
+    process.env.MONGO_DB_COLLECTION_NOTICIAS || "noticias"
   );
 
 };
