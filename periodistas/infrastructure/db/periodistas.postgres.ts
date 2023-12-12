@@ -21,8 +21,16 @@ export default class PeriodistasRepositoryPostgres implements PeriodistasReposit
        return periodistas;
     }
 
-    async getById(id: String): Promise<Periodista[] | undefined> {
-        throw new Error("Method not implemented.");
+    async getPeriodistaById(id: String): Promise<Periodista | undefined> {
+        const sql = `select * from periodistas where id=${id}`;
+        const periodistaFromBD: Periodista = await executeQuery(sql);
+        const periodista: Periodista ={
+            id: periodistaFromBD.id,
+            nombre: periodistaFromBD.nombre,
+            fechaNacimiento: new Date(periodistaFromBD.fechaNacimiento),
+        };
+
+        return periodista;
     }
 
     async createPeriodista(periodista: Periodista): Promise<Periodista[] | undefined> {

@@ -1,19 +1,31 @@
+import Noticia from "../../noticias/domain/Noticia";
+import NoticiasRepository from "../../noticias/domain/noticias.repository";
 import Periodista from "../domain/Periodista";
 import PeriodistasRepository from "../domain/periodistas.repository";
 
+
 export default class PeriodistasUseCases{
     private periodistasRepository: PeriodistasRepository;
+    private noticiasRepository?: NoticiasRepository;
 
-    constructor(periodistasRepository: PeriodistasRepository){
+    constructor(periodistasRepository: PeriodistasRepository, noticiasRepository?: NoticiasRepository){
         this.periodistasRepository = periodistasRepository;
+        this.noticiasRepository = noticiasRepository;
     }
 
     async getPeriodistas(){
         return this.periodistasRepository.getPeriodistas();
     }
 
-    async getById(id: String){
-        return this.periodistasRepository.getById(id);
+    async getPeriodistaById(id: String){
+        
+        const noticias  = this.noticiasRepository?.getNoticias();
+        console.log(noticias);
+      /*   for(const noticia of noticias){
+          
+        } */
+
+        return this.periodistasRepository.getPeriodistaById(id);
     }
 
     async createPeriodista(periodista: Periodista){
