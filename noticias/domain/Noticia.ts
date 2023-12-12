@@ -6,6 +6,6 @@ export default interface Noticia{
     id?: String;
     titulo: String;
     texto: String;
-    periodistas: Array<Periodista>;
-    recursos: Array<Recurso>;
+    periodistas?: Array<Periodista>;
+    recursos?: Array<Recurso>;
 }
