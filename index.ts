@@ -1,14 +1,19 @@
 import express from "express";
+import dotenv from "dotenv";
 import noticiasRoueter from "./noticias/infrastructure/rest/noticias.router";
 import createMongoConnection from "./context/mongoConnection";
+import { routerPeriodistas } from "./periodistas/infrastructure/rest/periodistas.router";
 
 createMongoConnection();
 
+dotenv.config();
+
 const app = express();
-const port = 8080;
+const port = process.env.PORT;
 
 app.use(express.json());
 app.use("/noticias", noticiasRoueter);
+app.use("/periodistas", routerPeriodistas);
 
 
 app.listen(port, ()=>{
