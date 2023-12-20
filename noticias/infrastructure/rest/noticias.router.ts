@@ -28,6 +28,14 @@ router.get("/:id", async(req, res)=>{
     }
 });
 
+router.get("/periodista/:id", async (req, res)=>{
+    try {
+      
+    } catch (error) {
+        
+    }
+});
+
 router.post("/", async(req ,res)=>{
     try {
         const newNoticia = req.body;

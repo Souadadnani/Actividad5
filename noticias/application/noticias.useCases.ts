@@ -24,5 +24,8 @@ export default class NoticiasUseCases{
     async deleteNoticia(id: String){
         return this.noticiasRepository.deleteNoticia(id);
     }
+    async getNoticiasByIdPeriodista(periodista: String){
+        return this.noticiasRepository.getNoticiasByIdPeriodista
+    }
 
 }

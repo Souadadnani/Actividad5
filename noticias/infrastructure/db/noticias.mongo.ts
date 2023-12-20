@@ -33,13 +33,23 @@ export default class NoticiasRepositoryMongoDB implements NoticiasRepository{
         return noticia;
     }
 
-    async getNoticiasByIdPeriodista(periodista: string): Promise<Noticia | undefined>{
+    async getNoticiasByIdPeriodista(periodista: string){
         const noticias = await this.getNoticias();
+        const noticiasPeriodista = [];
+       
         for (const noticia of noticias) {
-            
+            for(const p of noticia.periodistas){
+                if(p.id === periodista){
+                    const nuevaNoticia = {
+                        id: String(noticia.id),
+                        titulo: noticia.titulo,
+                        texto: noticia.texto,
+                        periodistas: noticia.periodistas
+                    };
+                    noticiasPeriodista.push(nuevaNoticia);
+                }
+            }
         }
-
-        return undefined;
     }
 
     async createNoticia(noticia: Noticia): Promise<Noticia | undefined> {
@@ -48,10 +58,9 @@ export default class NoticiasRepositoryMongoDB implements NoticiasRepository{
         return await this.getNoticiaById(id);
     }
 
-    async deleteNoticia(id: String): Promise<Noticia | undefined> {
+    async deleteNoticia(id: String): Promise<Noticia[] | undefined> {
         const resultado = await collections.noticias.deleteOne(id);
-        
-        throw new Error("Method not implemented.");
+        return this.getNoticias();
     }
     
 }
