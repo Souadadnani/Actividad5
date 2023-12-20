@@ -5,13 +5,10 @@ const doc = {
     title: 'My API',
     description: 'Description'
   },
-  host: 'localhost:3000'
+  host: 'localhost:8080'
 };
 
 const outputFile = './swagger-output.json';
-const routes = ['./noticias/infrastructure/rest/noticias.router.ts', './periodistas/infrastructure/rest/periodistas.router.ts'];
+const routes = ['./periodistas/infrastructure/rest/periodistas.router.ts', './noticias/infrastructure/rest/noticias.router.ts'];
 
 swaggerAutogen(outputFile, routes, doc);
-
-/* then(() => {
-require('./index')}); */

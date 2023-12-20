@@ -33,6 +33,15 @@ export default class NoticiasRepositoryMongoDB implements NoticiasRepository{
         return noticia;
     }
 
+    async getNoticiasByIdPeriodista(periodista: string): Promise<Noticia | undefined>{
+        const noticias = await this.getNoticias();
+        for (const noticia of noticias) {
+            
+        }
+
+        return undefined;
+    }
+
     async createNoticia(noticia: Noticia): Promise<Noticia | undefined> {
         const resultado = await collections.noticias.insertOne(noticia);
         const id = String(resultado.insertedId);
@@ -40,6 +49,7 @@ export default class NoticiasRepositoryMongoDB implements NoticiasRepository{
     }
 
     async deleteNoticia(id: String): Promise<Noticia | undefined> {
+        const resultado = await collections.noticias.deleteOne(id);
         
         throw new Error("Method not implemented.");
     }

@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import noticiasRoueter from "./noticias/infrastructure/rest/noticias.router";
 import createMongoConnection from "./context/mongoConnection";
 import { routerPeriodistas } from "./periodistas/infrastructure/rest/periodistas.router";
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "./swagger-output.json";
 
 createMongoConnection();
 
@@ -16,7 +18,11 @@ app.set('views', './views');
 
 app.use("/noticias", noticiasRoueter);
 app.use("/periodistas", routerPeriodistas);
-
+app.use(
+    "/api-docs",
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerDocument, {explorer: true})
+);
 
 app.listen(port, ()=>{
     console.log(`Server is running on port ${port}`);

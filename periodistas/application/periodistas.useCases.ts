@@ -18,12 +18,9 @@ export default class PeriodistasUseCases{
     }
 
     async getPeriodistaById(id: String){
-        
+        const periodista = this.getPeriodistaById(id);
         const noticias  = this.noticiasRepository?.getNoticias();
-        console.log(noticias);
-      /*   for(const noticia of noticias){
-          
-        } */
+        
 
         return this.periodistasRepository.getPeriodistaById(id);
     }

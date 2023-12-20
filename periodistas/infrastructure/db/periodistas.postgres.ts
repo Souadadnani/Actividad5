@@ -41,14 +41,25 @@ export default class PeriodistasRepositoryPostgres implements PeriodistasReposit
             periodista.id = result[0].id;
         } catch (error) {
             console.error(error);
-            //return undefined;
         }
         return this.getPeriodistas();
     }
-    updatePeriodista(periodista: Periodista): Promise<Periodista> {
-        throw new Error("Method not implemented.");
+
+    async updatePeriodista(periodista: Periodista) {
+        try {
+            const sql = await executeQuery(`update periodistas set nombre=${periodista.nombre}, fechaNacimiento=${periodista.fechaNacimiento} where id=${periodista.id}`);
+            periodista.id = sql[0].id;
+        } catch (error) {
+            console.error(error);
+        }
     }
-    deletePeriodista(id: String): Promise<Periodista[] | undefined> {
+
+    async deletePeriodista(id: String): Promise<Periodista[] | undefined> {
+        try {
+            const sql = await executeQuery(`delete from periodistas`);
+        } catch (error) {
+            console.error(error);
+        }
         throw new Error("Method not implemented.");
     }
 
