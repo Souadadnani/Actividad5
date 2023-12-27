@@ -16,6 +16,17 @@ router.get("/", async(req: Request, res: Response) => {
     }
 });
 
+router.get("/:id", async(req: Request, res: Response)=>{
+    try {
+        const periodistaId =parseInt(req.params.id);
+        const periodista = await periodistasUseCases.getPeriodistaById(periodistaId);
+        res.send(periodista);
+        
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
 router.post("/", async(req: Request, res: Response)=>{
     try {
         const newPeriodista = req.body;

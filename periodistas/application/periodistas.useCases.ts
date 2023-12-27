@@ -1,4 +1,3 @@
-import Noticia from "../../noticias/domain/Noticia";
 import NoticiasRepository from "../../noticias/domain/noticias.repository";
 import Periodista from "../domain/Periodista";
 import PeriodistasRepository from "../domain/periodistas.repository";
@@ -17,12 +16,17 @@ export default class PeriodistasUseCases{
         return this.periodistasRepository.getPeriodistas();
     }
 
-    async getPeriodistaById(id: String){
-        const periodista = this.getPeriodistaById(id);
-        const noticias  = this.noticiasRepository?.getNoticias();
-        
-
-        return this.periodistasRepository.getPeriodistaById(id);
+    async getPeriodistaById(id: number){
+        try {
+            const noticiasMongo = await this.noticiasRepository.getNoticiasByIdPeriodista(id);
+            console.log(noticiasMongo);
+            const periodistaFromPostgres = await this.periodistasRepository.getPeriodistaById(id);
+            periodistaFromPostgres.noticias = noticiasMongo;
+            return periodistaFromPostgres; 
+        } catch (error) {
+            console.error('Error al obtener el periodista: ', error);
+            throw error;
+        }
     }
 
     async createPeriodista(periodista: Periodista){
@@ -30,10 +34,10 @@ export default class PeriodistasUseCases{
     }
 
     async updatePeriodista(periodista: Periodista){
-        return this.periodistasRepository.createPeriodista(periodista);
+        return this.periodistasRepository.updatePeriodista(periodista);
     }
 
-    async deletePeriodista(id: String){
+    async deletePeriodista(id: number){
         return this.periodistasRepository.deletePeriodista(id);
     }
 }

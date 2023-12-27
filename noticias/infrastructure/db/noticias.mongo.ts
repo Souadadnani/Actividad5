@@ -4,6 +4,7 @@ import Noticia from "../../domain/Noticia";
 import { collections } from "../../../context/mongoConnection";
 
 export default class NoticiasRepositoryMongoDB implements NoticiasRepository{
+
     async getNoticias(): Promise<Noticia[] | undefined> {
         const noticiasBD = await collections.noticias.find().toArray();
         if(!noticiasBD) return undefined;
@@ -19,6 +20,7 @@ export default class NoticiasRepositoryMongoDB implements NoticiasRepository{
         });
         return noticias;
     }
+    
     async getNoticiaById(id: string): Promise<Noticia | undefined> {
         const objectId = new ObjectId(id);
         const noticiaBD = await collections.noticias.findOne({_id: objectId});
@@ -33,22 +35,33 @@ export default class NoticiasRepositoryMongoDB implements NoticiasRepository{
         return noticia;
     }
 
-    async getNoticiasByIdPeriodista(periodista: string){
+    async getNoticiasByIdPeriodista(idPeriodista: number): Promise<Noticia[] | undefined> {
+        try {
         const noticias = await this.getNoticias();
-        const noticiasPeriodista = [];
-       
-        for (const noticia of noticias) {
-            for(const p of noticia.periodistas){
-                if(p.id === periodista){
+        const noticiasOfPeriodista: Noticia[] = [];
+        console.log(noticias);
+        console.log(noticiasOfPeriodista);
+        for (let noticia of noticias) {
+            console.log(noticia.periodistas);
+            for(let p of noticia.periodistas){
+                
+                if(p.id === idPeriodista){
                     const nuevaNoticia = {
-                        id: String(noticia.id),
+                        id: noticia.id,
                         titulo: noticia.titulo,
                         texto: noticia.texto,
-                        periodistas: noticia.periodistas
+                        recursos: noticia.recursos
                     };
-                    noticiasPeriodista.push(nuevaNoticia);
+                    console.log(nuevaNoticia);
+                    noticiasOfPeriodista.push(nuevaNoticia);
                 }
             }
+        }
+    
+        return noticiasOfPeriodista; 
+        } catch (error) {
+           console.error("error al obtener la noticia: ", error);
+           throw error; 
         }
     }
 

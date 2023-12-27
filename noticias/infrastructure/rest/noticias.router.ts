@@ -16,8 +16,8 @@ router.get("/", async (req, res)=>{
 
 router.get("/:id", async(req, res)=>{
     try {
-        const noticiaId = req.params.id;
-        const noticia = await noticiasUseCases.getNoticiasById(noticiaId);
+        const noticiaId =parseInt(req.params.id);
+        const noticia = await noticiasUseCases.getNoticiasByIdPeriodista(noticiaId);
         if(noticia){
             res.json(noticia);
         }else{
@@ -25,14 +25,6 @@ router.get("/:id", async(req, res)=>{
         }
     } catch (error) {
         res.status(500).json({ error: "Internal Server Error" }); 
-    }
-});
-
-router.get("/periodista/:id", async (req, res)=>{
-    try {
-      
-    } catch (error) {
-        
     }
 });
 

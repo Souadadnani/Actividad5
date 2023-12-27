@@ -3,9 +3,9 @@ import Recurso from "./Recurso";
 
 
 export default interface Noticia{
-    id?: String;
-    titulo: String;
-    texto: String;
+    id?: string;
+    titulo: string;
+    texto: string;
     periodistas?: Array<Periodista>;
     recursos?: Array<Recurso>;
 }

@@ -3,6 +3,7 @@ import PeriodistasRepository from "../../domain/periodistas.repository";
 import executeQuery from "../../../context/postgres.connector";
 
 export default class PeriodistasRepositoryPostgres implements PeriodistasRepository{
+  
 
 
     async getPeriodistas(): Promise<Periodista[] | undefined> {
@@ -21,17 +22,28 @@ export default class PeriodistasRepositoryPostgres implements PeriodistasReposit
        return periodistas;
     }
 
-    async getPeriodistaById(id: String): Promise<Periodista | undefined> {
+    async getPeriodistaById(id: number): Promise<Periodista | undefined> {
+        try{
         const sql = `select * from periodistas where id=${id}`;
-        const periodistaFromBD: Periodista = await executeQuery(sql);
-        const periodista: Periodista ={
-            id: periodistaFromBD.id,
-            nombre: periodistaFromBD.nombre,
-            fechaNacimiento: new Date(periodistaFromBD.fechaNacimiento),
-        };
-
+        const periodistaFromBD: any[] = await executeQuery(sql);
+        console.log(periodistaFromBD);
+        for(let p of periodistaFromBD){
+                const periodista: Periodista ={
+                id: p.id,
+                nombre: p.nombre,
+                fechaNacimiento: new Date(p.fechaNacimiento),
+                noticias: p.noticias
+            }
+        console.log(periodista);
         return periodista;
+        };
+        }catch(error){
+            console.error('Error al obtener el periodista: ', error);
+            throw error;
+        }    
     }
+
+   
 
     async createPeriodista(periodista: Periodista): Promise<Periodista[] | undefined> {
         try {
@@ -45,16 +57,18 @@ export default class PeriodistasRepositoryPostgres implements PeriodistasReposit
         return this.getPeriodistas();
     }
 
-    async updatePeriodista(periodista: Periodista) {
+    async updatePeriodista(periodista: Periodista): Promise<Periodista | undefined> {
         try {
             const sql = await executeQuery(`update periodistas set nombre=${periodista.nombre}, fechaNacimiento=${periodista.fechaNacimiento} where id=${periodista.id}`);
             periodista.id = sql[0].id;
         } catch (error) {
             console.error(error);
         }
+        return this.getPeriodistaById(periodista.id);
+        
     }
 
-    async deletePeriodista(id: String): Promise<Periodista[] | undefined> {
+    async deletePeriodista(id: number): Promise<Periodista[] | undefined> {
         try {
             const sql = await executeQuery(`delete from periodistas`);
         } catch (error) {

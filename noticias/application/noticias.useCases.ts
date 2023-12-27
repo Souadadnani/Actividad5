@@ -1,3 +1,4 @@
+
 import Noticia from "../domain/Noticia";
 import NoticiasRepository from "../domain/noticias.repository";
 
@@ -13,7 +14,7 @@ export default class NoticiasUseCases{
         return this.noticiasRepository.getNoticias();
     }
 
-    async getNoticiasById(id:String){
+    async getNoticiasById(id:string){
         return this.noticiasRepository.getNoticiaById(id);
     }
 
@@ -21,11 +22,11 @@ export default class NoticiasUseCases{
         return this.noticiasRepository.createNoticia(noticia);
     }
 
-    async deleteNoticia(id: String){
+    async deleteNoticia(id: string){
         return this.noticiasRepository.deleteNoticia(id);
     }
-    async getNoticiasByIdPeriodista(periodista: String){
-        return this.noticiasRepository.getNoticiasByIdPeriodista
+    async getNoticiasByIdPeriodista(idPeriodista: number) {
+        return this.noticiasRepository.getNoticiasByIdPeriodista(idPeriodista);
     }
 
 }

@@ -1,6 +1,8 @@
+import Noticia from "../../noticias/domain/Noticia";
+
 export default interface Periodista{
-    id?: String;
-    nombre: String;
+    id?: number;
+    nombre: string;
     fechaNacimiento: Date;
-    noticias?: Array<any>; 
+    noticias?: Array<Noticia>; 
 }
