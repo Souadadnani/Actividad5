@@ -16,8 +16,8 @@ router.get("/", async (req, res)=>{
 
 router.get("/:id", async(req, res)=>{
     try {
-        const noticiaId =parseInt(req.params.id);
-        const noticia = await noticiasUseCases.getNoticiasByIdPeriodista(noticiaId);
+        const noticiaId = req.params.id;
+        const noticia = await noticiasUseCases.getNoticiasById(noticiaId);
         if(noticia){
             res.json(noticia);
         }else{

@@ -1,3 +1,4 @@
+
 import NoticiasRepository from "../../noticias/domain/noticias.repository";
 import Periodista from "../domain/Periodista";
 import PeriodistasRepository from "../domain/periodistas.repository";
@@ -5,9 +6,9 @@ import PeriodistasRepository from "../domain/periodistas.repository";
 
 export default class PeriodistasUseCases{
     private periodistasRepository: PeriodistasRepository;
-    private noticiasRepository?: NoticiasRepository;
+    private noticiasRepository: NoticiasRepository;
 
-    constructor(periodistasRepository: PeriodistasRepository, noticiasRepository?: NoticiasRepository){
+    constructor(periodistasRepository: PeriodistasRepository, noticiasRepository: NoticiasRepository){
         this.periodistasRepository = periodistasRepository;
         this.noticiasRepository = noticiasRepository;
     }
@@ -18,6 +19,7 @@ export default class PeriodistasUseCases{
 
     async getPeriodistaById(id: number){
         try {
+           
             const noticiasMongo = await this.noticiasRepository.getNoticiasByIdPeriodista(id);
             console.log(noticiasMongo);
             const periodistaFromPostgres = await this.periodistasRepository.getPeriodistaById(id);

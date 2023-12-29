@@ -42,22 +42,22 @@ export default class NoticiasRepositoryMongoDB implements NoticiasRepository{
         console.log(noticias);
         console.log(noticiasOfPeriodista);
         for (let noticia of noticias) {
-            console.log(noticia.periodistas);
-            for(let p of noticia.periodistas){
-                
-                if(p.id === idPeriodista){
-                    const nuevaNoticia = {
-                        id: noticia.id,
-                        titulo: noticia.titulo,
-                        texto: noticia.texto,
-                        recursos: noticia.recursos
-                    };
-                    console.log(nuevaNoticia);
-                    noticiasOfPeriodista.push(nuevaNoticia);
+            if(noticia.periodistas && Array.isArray(noticia.periodistas)){
+                console.log(noticia.periodistas);
+                for(let p of noticia.periodistas){
+                    if(p.id === idPeriodista){
+                        const nuevaNoticia = {
+                            id: noticia.id,
+                            titulo: noticia.titulo,
+                            texto: noticia.texto,
+                            recursos: noticia.recursos
+                        };
+                        console.log(nuevaNoticia);
+                        noticiasOfPeriodista.push(nuevaNoticia);
+                    }
                 }
             }
-        }
-    
+        }    
         return noticiasOfPeriodista; 
         } catch (error) {
            console.error("error al obtener la noticia: ", error);
