@@ -43,12 +43,10 @@ export default class PeriodistasRepositoryPostgres implements PeriodistasReposit
         }    
     }
 
-   
-
     async createPeriodista(periodista: Periodista): Promise<Periodista[] | undefined> {
         try {
             const result = await executeQuery(
-                `insert into periodistas(nombre, fechaNacimiento) values('${periodista.nombre}', '${periodista.fechaNacimiento}') RETURNING id`,
+                `insert into periodistas(nombre, "fechaNacimiento") values('${periodista.nombre}', '${periodista.fechaNacimiento}') RETURNING id`,
             );
             periodista.id = result[0].id;
         } catch (error) {
@@ -57,24 +55,24 @@ export default class PeriodistasRepositoryPostgres implements PeriodistasReposit
         return this.getPeriodistas();
     }
 
-    async updatePeriodista(periodista: Periodista): Promise<Periodista | undefined> {
+    async updatePeriodista(id: number, periodista: Periodista): Promise<Periodista | undefined> {
         try {
-            const sql = await executeQuery(`update periodistas set nombre=${periodista.nombre}, fechaNacimiento=${periodista.fechaNacimiento} where id=${periodista.id}`);
-            periodista.id = sql[0].id;
+            const periodistaFromBD = await executeQuery(`update periodistas set nombre='${periodista.nombre}', "fechaNacimiento"='${periodista.fechaNacimiento}' where id=${id}`);
+            console.log(periodistaFromBD);      
         } catch (error) {
-            console.error(error);
+            console.error("Error al actualizar el periodista: ", error);
+            throw error;
         }
-        return this.getPeriodistaById(periodista.id);
-        
+        return this.getPeriodistaById(id);
     }
 
     async deletePeriodista(id: number): Promise<Periodista[] | undefined> {
         try {
-            const sql = await executeQuery(`delete from periodistas`);
+            const sql = await executeQuery(`delete from periodistas where id=${id}`);
+            return this.getPeriodistas();
         } catch (error) {
-            console.error(error);
-        }
-        throw new Error("Method not implemented.");
+            console.error("Error al eliminar el periodista: ", error);
+        }    
     }
 
 }

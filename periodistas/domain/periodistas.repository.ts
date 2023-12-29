@@ -6,6 +6,6 @@ export default interface PeriodistasRepository{
     getPeriodistas(): Promise<Periodista[] | undefined>;
     getPeriodistaById(id: number): Promise<Periodista | undefined>;
     createPeriodista(periodista: Periodista): Promise<Periodista[] | undefined>;
-    updatePeriodista(periodista: Periodista): Promise<Periodista | undefined>;
+    updatePeriodista(id: number,periodista: Periodista): Promise<Periodista | undefined>;
     deletePeriodista(id: number): Promise<Periodista[] | undefined>; 
 }

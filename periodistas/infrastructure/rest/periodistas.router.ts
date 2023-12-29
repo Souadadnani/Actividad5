@@ -21,8 +21,7 @@ router.get("/:id", async(req: Request, res: Response)=>{
     try {
         const periodistaId =parseInt(req.params.id);
         const periodista = await periodistasUseCases.getPeriodistaById(periodistaId);
-        res.send(periodista);
-        
+        res.send(periodista);    
     } catch (error) {
         res.status(500).send(error);
     }
@@ -33,6 +32,25 @@ router.post("/", async(req: Request, res: Response)=>{
         const newPeriodista = req.body;
         const result = await periodistasUseCases.createPeriodista(newPeriodista);
         res.json(result); 
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+router.put("/:id",async (req: Request, res: Response) => {
+    try {
+        const periodistaId = parseInt(req.params.id);
+        const actualizada = req.body;
+        const result = await periodistasUseCases.updatePeriodista(periodistaId ,actualizada);
+        res.json(result);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+router.delete("/:id",async (req: Request, res: Response) => {
+    try {
+        const id = parseInt(req.params.id);
+        const result = await periodistasUseCases.deletePeriodista(id);
+        res.json(result);
     } catch (error) {
         res.status(500).send(error);
     }
