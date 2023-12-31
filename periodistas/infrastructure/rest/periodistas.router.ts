@@ -46,6 +46,7 @@ router.put("/:id",async (req: Request, res: Response) => {
         res.status(500).send(error);
     }
 });
+
 router.delete("/:id",async (req: Request, res: Response) => {
     try {
         const id = parseInt(req.params.id);
@@ -55,5 +56,6 @@ router.delete("/:id",async (req: Request, res: Response) => {
         res.status(500).send(error);
     }
 });
+
 
 export {router as routerPeriodistas};

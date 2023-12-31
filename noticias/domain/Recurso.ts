@@ -1,8 +1,8 @@
 export default class Recurso{
-    id?: String;
-    url: String;
+    id?: number;
+    url: string;
 
-    constructor(url: String){
+    constructor(url: string){
         this.url = url;
     }
 }

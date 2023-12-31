@@ -21,11 +21,26 @@ router.get("/:id", async(req, res)=>{
         if(noticia){
             res.json(noticia);
         }else{
-            res.status(404).json({ error: "User not found" });
+            res.status(404).json({ error: "La noticia no se encuentra"});
         }
     } catch (error) {
-        res.status(500).json({ error: "Internal Server Error" }); 
+        res.status(500).json({ error: "Internal Server Error"}); 
     }
+});
+
+router.get("/periodista/:id",async (req, res) => {
+    try {
+        const idPeriodista = parseInt(req.params.id);
+        console.log(idPeriodista);
+        const noticias = await noticiasUseCases.getNoticiasByIdPeriodista(idPeriodista);
+        if(noticias){
+            res.json(noticias);
+        }else{
+            res.status(404).json({error: `Las noticias del periodista con el id= ${idPeriodista} no se ecuentran`});
+        }  
+    } catch (error) {
+        res.status(500).json({error: "Internal Server Error"});
+    }    
 });
 
 router.post("/", async(req ,res)=>{
@@ -36,6 +51,16 @@ router.post("/", async(req ,res)=>{
     } catch (error) {
         res.status(500).json({ error: "Internal Server Error" });
     }
+});
+
+router.delete("/:id", async(req, res) => {
+   try {
+    const idNoticia = req.params.id;
+    const deletedNoticia = await noticiasUseCases.deleteNoticia(idNoticia);
+    res.status(201).json(deletedNoticia);
+   } catch (error) {
+        res.status(500).json({error: "Internel Server Error"});
+   } 
 });
 
 export default router;

@@ -29,4 +29,8 @@ export default class NoticiasUseCases{
         return this.noticiasRepository.getNoticiasByIdPeriodista(idPeriodista);
     }
 
+    async deleteNoticiasByIdPeriodista(idPeriodista: number){
+        this.noticiasRepository.deleteNoticiasByIdPeriodista(idPeriodista);
+    }
+
 }

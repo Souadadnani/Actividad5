@@ -8,4 +8,5 @@ export default interface PeriodistasRepository{
     createPeriodista(periodista: Periodista): Promise<Periodista[] | undefined>;
     updatePeriodista(id: number,periodista: Periodista): Promise<Periodista | undefined>;
     deletePeriodista(id: number): Promise<Periodista[] | undefined>; 
+    deleteRecurso(id: number): Promise<void>; 
 }

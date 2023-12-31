@@ -3,8 +3,6 @@ import PeriodistasRepository from "../../domain/periodistas.repository";
 import executeQuery from "../../../context/postgres.connector";
 
 export default class PeriodistasRepositoryPostgres implements PeriodistasRepository{
-  
-
 
     async getPeriodistas(): Promise<Periodista[] | undefined> {
 
@@ -68,11 +66,19 @@ export default class PeriodistasRepositoryPostgres implements PeriodistasReposit
 
     async deletePeriodista(id: number): Promise<Periodista[] | undefined> {
         try {
-            const sql = await executeQuery(`delete from periodistas where id=${id}`);
+            await executeQuery(`delete from periodistas where id=${id}`);
             return this.getPeriodistas();
         } catch (error) {
             console.error("Error al eliminar el periodista: ", error);
         }    
+    }
+
+    async deleteRecurso(id: number): Promise<void> {
+        try {
+            await executeQuery(`delete from recursos where id=${id}`);
+        } catch (error) {
+            console.error("Error al eliminar el recurso: ", error);
+        }
     }
 
 }
