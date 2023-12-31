@@ -86,9 +86,9 @@ export default class NoticiasRepositoryMongoDB implements NoticiasRepository{
     async deleteNoticiasByIdPeriodista(idPeriodista: number): Promise<void> {
         try {
             const noticiasOfPeriodistas = await this.getNoticiasByIdPeriodista(idPeriodista);
-            console.log(noticiasOfPeriodistas);
-            noticiasOfPeriodistas.forEach(noticia=>{                
-                this.deleteNoticia(noticia.id);
+            noticiasOfPeriodistas.forEach(noticia=>{  
+                console.log("las noticias del periodista: ", noticia.periodistas);  
+                this.deleteNoticia(noticia.id);             
             });
         } catch (error) {
             console.error(`Error al eliminar la noticia del periodista con el id= ${idPeriodista}, `, error);     

@@ -1,9 +1,10 @@
 import express from "express";
 import NoticiasUseCases from "../../application/noticias.useCases";
 import NoticiasRepositoryMongoDB from "../db/noticias.mongo";
+import PeriodistasRepositoryPostgres from "../../../periodistas/infrastructure/db/periodistas.postgres";
 
 const router = express.Router();
-const noticiasUseCases: NoticiasUseCases = new NoticiasUseCases(new NoticiasRepositoryMongoDB);
+const noticiasUseCases: NoticiasUseCases = new NoticiasUseCases(new NoticiasRepositoryMongoDB(), new PeriodistasRepositoryPostgres());
 
 router.get("/", async (req, res)=>{
     try {
