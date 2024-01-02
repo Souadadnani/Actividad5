@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias del per</title>
+</head>
+<body>
+    <%- include('fragments/header') %>
+    <%- include('fragments/nav') %>
+    <main>
+        <h2> Noticias del Periodista <%= periodista %></h2>
+        <ul>
+            <%
+            noticiasDelPeriodista.forEach((noticia) => {            
+                    %><li><%=noticia.titulo%></li><%
+                })
+            %> 
+        </ul> 
+    </main>
+
+</body>
+</html>

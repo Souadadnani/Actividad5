@@ -6,6 +6,17 @@ import PeriodistasRepositoryPostgres from "../../../periodistas/infrastructure/d
 const router = express.Router();
 const noticiasUseCases: NoticiasUseCases = new NoticiasUseCases(new NoticiasRepositoryMongoDB(), new PeriodistasRepositoryPostgres());
 
+router.get("",async (req, res) => {
+    const noticias = await noticiasUseCases.getNoticias();
+    res.render('noticias', {noticias});
+});
+
+router.get("/:periodista", async (req, res) => {
+    const periodista = parseInt(req.params.periodista);
+    const noticiasDelPeriodista = await noticiasUseCases.getNoticiasByIdPeriodista(periodista);
+    res.render('noticiasDelPeriodista', {noticiasDelPeriodista, periodista});
+});
+
 router.get("/", async (req, res)=>{
     try {
         const noticias = await noticiasUseCases.getNoticias();

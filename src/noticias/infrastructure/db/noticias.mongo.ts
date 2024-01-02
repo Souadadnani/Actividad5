@@ -1,13 +1,13 @@
 import { ObjectId } from "mongodb";
+import { collections } from "../../../context/mongoConnection";
 import NoticiasRepository from "../../domain/noticias.repository";
 import Noticia from "../../domain/Noticia";
-import { collections } from "../../../context/mongoConnection";
-import Recurso from "../../domain/Recurso";
+
 
 export default class NoticiasRepositoryMongoDB implements NoticiasRepository{
-
+//sort({_id: -1}) or reverse()
     async getNoticias(): Promise<Noticia[] | undefined> {
-        const noticiasBD = await collections.noticias.find().toArray();
+        const noticiasBD = await collections.noticias.find().sort({_id: -1}).toArray();
         console.log(noticiasBD);
         if(!noticiasBD) return undefined;
         console.log(noticiasBD);
@@ -82,7 +82,8 @@ export default class NoticiasRepositoryMongoDB implements NoticiasRepository{
             throw error;
         }
     }
-//eliminar las noticias del periodista
+
+    //eliminar las noticias del periodista
     async deleteNoticiasByIdPeriodista(idPeriodista: number): Promise<void> {
         try {
             const noticiasOfPeriodistas = await this.getNoticiasByIdPeriodista(idPeriodista);

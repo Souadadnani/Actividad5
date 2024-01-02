@@ -50,7 +50,7 @@ export default class PeriodistasUseCases{
 
     async deleteRecurso(idPeriodista: number){
         try {
-            const noticiasMongo = await this.noticiasRepository.getNoticiasByIdPeriodista(idPeriodista);
+           const noticiasMongo = await this.noticiasRepository.getNoticiasByIdPeriodista(idPeriodista);
             noticiasMongo.forEach(noticia=>{
                 noticia.recursos.forEach(recurso=>{
                     this.periodistasRepository.deleteRecurso(recurso.id);   

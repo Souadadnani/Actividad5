@@ -5,9 +5,8 @@ import executeQuery from "../../../context/postgres.connector";
 export default class PeriodistasRepositoryPostgres implements PeriodistasRepository{
 
     async getPeriodistas(): Promise<Periodista[] | undefined> {
-
        const periodistas: Periodista[] = [];
-       const query = 'select * from periodistas';
+       const query = 'select * from periodistas order by id desc';
        const periodistasFromBD: any[] = await executeQuery(query);
        for(const item of periodistasFromBD){
         const periodista: Periodista = {
@@ -73,9 +72,9 @@ export default class PeriodistasRepositoryPostgres implements PeriodistasReposit
         }    
     }
 
-    async deleteRecurso(id: number): Promise<void> {
+    async deleteRecurso(idRecurso: number): Promise<void> {
         try {
-            await executeQuery(`delete from recursos where id=${id}`);
+            await executeQuery(`delete from recursos where id=${idRecurso}`);
         } catch (error) {
             console.error("Error al eliminar el recurso: ", error);
         }
