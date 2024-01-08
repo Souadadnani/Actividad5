@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import noticiasRoueter from "./noticias/infrastructure/rest/noticias.router";
+import noticiasWeb from "./noticias/infrastructure/web/noticias.web";
 import createMongoConnection from "./context/mongoConnection";
 import { routerPeriodistas } from "./periodistas/infrastructure/rest/periodistas.router";
 import swaggerUi from "swagger-ui-express";
@@ -16,7 +17,7 @@ app.use(express.json());
 app.set('view engine', 'ejs');
 app.set('views', './src/views');
 
-app.use("/noticias", noticiasRoueter);
+app.use("/noticias", noticiasWeb);
 app.use("/api/noticias", noticiasRoueter);
 app.use("/api/periodistas", routerPeriodistas);
 app.use(
