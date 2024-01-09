@@ -89,7 +89,8 @@ export default class NoticiasRepositoryMongoDB implements NoticiasRepository{
         try {
             const noticiasOfPeriodistas = await this.getNoticiasByIdPeriodista(idPeriodista);
             noticiasOfPeriodistas.forEach(noticia=>{  
-                console.log("las noticias del periodista: ", noticia.periodistas);  
+                console.log("las noticias del periodista: ", noticia.periodistas);
+                if(noticia.periodistas.length >1) 
                 this.deleteNoticia(noticia.id);             
             });
         } catch (error) {
