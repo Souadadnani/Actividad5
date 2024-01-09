@@ -1,6 +1,7 @@
 import Periodista from "../../domain/Periodista";
 import PeriodistasRepository from "../../domain/periodistas.repository";
 import executeQuery from "../../../context/postgres.connector";
+import Recurso from "../../../noticias/domain/Recurso";
 
 export default class PeriodistasRepositoryPostgres implements PeriodistasRepository{
 
@@ -23,7 +24,7 @@ export default class PeriodistasRepositoryPostgres implements PeriodistasReposit
         try{
         const sql = `select * from periodistas where id=${id}`;
         const periodistaFromBD: any[] = await executeQuery(sql);
-        console.log(periodistaFromBD);
+    
         for(let p of periodistaFromBD){
                 const periodista: Periodista ={
                 id: p.id,
@@ -31,7 +32,6 @@ export default class PeriodistasRepositoryPostgres implements PeriodistasReposit
                 fechaNacimiento: new Date(p.fechaNacimiento),
                 noticias: p.noticias
             }
-        console.log(periodista);
         return periodista;
         };
         }catch(error){
@@ -72,9 +72,27 @@ export default class PeriodistasRepositoryPostgres implements PeriodistasReposit
         }    
     }
 
+    async getRecusos(): Promise<Recurso[] | undefined>{
+        try{
+            const recursos: Recurso[] = [];
+            const recursosFromBD = await executeQuery(`select * from recursos`);
+            for(const element of recursosFromBD){
+                const recurso = {
+                    id: element.id,
+                    url: element.url
+                };
+                recursos.push(recurso);
+            }
+            return recursos;
+        }catch(error){
+            console.error(error);
+        }
+    }
+
     async deleteRecurso(idRecurso: number): Promise<void> {
         try {
             await executeQuery(`delete from recursos where id=${idRecurso}`);
+
         } catch (error) {
             console.error("Error al eliminar el recurso: ", error);
         }

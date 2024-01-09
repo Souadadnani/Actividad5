@@ -72,6 +72,7 @@ export default class NoticiasRepositoryMongoDB implements NoticiasRepository{
         return await this.getNoticiaById(id);
     }
 
+    //eliminar una noticia
     async deleteNoticia(id: string): Promise<Noticia[] | undefined> {
         try {
             const objectId = new ObjectId(id);
