@@ -40,13 +40,22 @@ export default class PeriodistasUseCases{
     async deletePeriodista(idPeriodista: number){
         try {
             const noticiasMongo = await this.noticiasRepository.getNoticiasByIdPeriodista(idPeriodista);
-            noticiasMongo.forEach(noticia=>{
-                if(noticia.periodistas.length === 1){
+            if(noticiasMongo){
+                noticiasMongo.forEach(noticia=>{   
+                    console.log(noticia);
+                                     
+                if(noticia.periodistas && noticia.periodistas.length === 1){
                     noticia.periodistas.forEach(periodista=>{
                         this.noticiasRepository.deleteNoticia(noticia.id);
                     });
                 }
+                if(noticia.recursos){
+                    noticia.recursos.forEach(recurso=>{
+                        this.noticiasRepository.deleteRecurso(recurso.id);
+                    });
+                }
             });
+            }  
             return this.periodistasRepository.deletePeriodista(idPeriodista);
         } catch (error) {
             console.error("Error al eliminar la periodista: ", error);

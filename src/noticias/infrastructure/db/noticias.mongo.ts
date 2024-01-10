@@ -9,9 +9,7 @@ export default class NoticiasRepositoryMongoDB implements NoticiasRepository{
 //sort({_id: -1}) or reverse()
     async getNoticias(): Promise<Noticia[] | undefined> {
         const noticiasBD = await collections.noticias.find().sort({_id: -1}).toArray();
-        console.log(noticiasBD);
         if(!noticiasBD) return undefined;
-        console.log(noticiasBD);
         const noticias: Noticia[] = noticiasBD.map((noticiaBD)=>{
             const noticia: Noticia = {
                 id: String(noticiaBD._id),
@@ -45,16 +43,15 @@ export default class NoticiasRepositoryMongoDB implements NoticiasRepository{
         const noticiasOfPeriodista: Noticia[] = [];
         for (let noticia of noticias) {
             if(noticia.periodistas && Array.isArray(noticia.periodistas)){
-                console.log(noticia.periodistas);
                 for(let p of noticia.periodistas){
                     if(p.id === idPeriodista){
                         const nuevaNoticia = {
                             id: noticia.id,
                             titulo: noticia.titulo,
                             texto: noticia.texto,
+                            periodistas: noticia.periodistas,
                             recursos: noticia.recursos
                         };
-                        console.log(nuevaNoticia);
                         noticiasOfPeriodista.push(nuevaNoticia);
                     }
                 }
@@ -75,6 +72,8 @@ export default class NoticiasRepositoryMongoDB implements NoticiasRepository{
 
     //eliminar una noticia
     async deleteNoticia(id: string): Promise<Noticia[] | undefined> {
+        console.log(id);
+        
         try {
             const objectId = new ObjectId(id);
             await collections.noticias.deleteOne({_id: objectId});
