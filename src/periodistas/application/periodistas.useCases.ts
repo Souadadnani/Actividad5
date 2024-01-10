@@ -19,7 +19,6 @@ export default class PeriodistasUseCases{
     async getPeriodistaById(id: number){
         try {   
             const noticiasMongo = await this.noticiasRepository.getNoticiasByIdPeriodista(id);
-            console.log(noticiasMongo);
             const periodistaFromPostgres = await this.periodistasRepository.getPeriodistaById(id);
             periodistaFromPostgres.noticias = noticiasMongo;
             return periodistaFromPostgres; 
