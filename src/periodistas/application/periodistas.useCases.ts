@@ -39,8 +39,14 @@ export default class PeriodistasUseCases{
 
     async deletePeriodista(idPeriodista: number){
         try {
-            this.noticiasRepository.deleteNoticiasByIdPeriodista(idPeriodista);
-            this.deleteRecurso(idPeriodista);
+            const noticiasMongo = await this.noticiasRepository.getNoticiasByIdPeriodista(idPeriodista);
+            noticiasMongo.forEach(noticia=>{
+                if(noticia.periodistas.length === 1){
+                    noticia.periodistas.forEach(periodista=>{
+                        this.noticiasRepository.deleteNoticia(noticia.id);
+                    });
+                }
+            });
             return this.periodistasRepository.deletePeriodista(idPeriodista);
         } catch (error) {
             console.error("Error al eliminar la periodista: ", error);
@@ -48,17 +54,4 @@ export default class PeriodistasUseCases{
         }
     }
 
-    async deleteRecurso(idPeriodista: number){
-        try {
-           const noticiasMongo = await this.noticiasRepository.getNoticiasByIdPeriodista(idPeriodista);
-            noticiasMongo.forEach(noticia=>{
-                noticia.recursos.forEach(recurso=>{
-                    this.periodistasRepository.deleteRecurso(recurso.id);   
-                })
-            })
-        } catch (error) {
-            console.error("Error al eliminar el recurso: ", error);
-            throw error;
-        }
-    }
 }

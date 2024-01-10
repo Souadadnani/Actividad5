@@ -1,4 +1,3 @@
-import PeriodistasRepository from "../../periodistas/domain/periodistas.repository";
 import Noticia from "../domain/Noticia";
 import NoticiasRepository from "../domain/noticias.repository";
 
@@ -6,11 +5,9 @@ import NoticiasRepository from "../domain/noticias.repository";
 export default class NoticiasUseCases{
 
     private noticiasRepository: NoticiasRepository;
-    private periodistasRepository: PeriodistasRepository;
 
-    constructor(noticiasRepository: NoticiasRepository, periodistasRepository: PeriodistasRepository){
+    constructor(noticiasRepository: NoticiasRepository){
         this.noticiasRepository = noticiasRepository;
-        this.periodistasRepository = periodistasRepository;
     }
 
     async getNoticias(){
@@ -28,7 +25,7 @@ export default class NoticiasUseCases{
     async deleteNoticia(id: string){
         try {
             (await this.getNoticiasById(id)).recursos.forEach(recurso=>
-                this.periodistasRepository.deleteRecurso(recurso.id));   
+                this.noticiasRepository.deleteRecurso(recurso.id));   
             return this.noticiasRepository.deleteNoticia(id);
         } catch (error) {
             console.error("Error al eliminar la noticia", error);
@@ -40,8 +37,5 @@ export default class NoticiasUseCases{
         return this.noticiasRepository.getNoticiasByIdPeriodista(idPeriodista);
     }
 
-    async deleteNoticiasByIdPeriodista(idPeriodista: number){
-        this.noticiasRepository.deleteNoticiasByIdPeriodista(idPeriodista);
-    }
 
 }

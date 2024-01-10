@@ -2,6 +2,7 @@ import { ObjectId } from "mongodb";
 import { collections } from "../../../context/mongoConnection";
 import NoticiasRepository from "../../domain/noticias.repository";
 import Noticia from "../../domain/Noticia";
+import executeQuery from "../../../context/postgres.connector";
 
 
 export default class NoticiasRepositoryMongoDB implements NoticiasRepository{
@@ -85,16 +86,56 @@ export default class NoticiasRepositoryMongoDB implements NoticiasRepository{
     }
 
     //eliminar las noticias del periodista
-    async deleteNoticiasByIdPeriodista(idPeriodista: number): Promise<void> {
+   /*  async deleteNoticiasByIdPeriodista(idPeriodista: number): Promise<void> {
         try {
             const noticiasOfPeriodistas = await this.getNoticiasByIdPeriodista(idPeriodista);
             noticiasOfPeriodistas.forEach(noticia=>{  
-                console.log("las noticias del periodista: ", noticia.periodistas);
-                if(noticia.periodistas.length >1) 
-                this.deleteNoticia(noticia.id);             
+                if(noticia.periodistas.length === 1){
+                    this.deleteNoticia(noticia.id); 
+                }else{console.log("No se puede eliminar la noticia esta escrita por mas periodistas");
+                }                 
             });
         } catch (error) {
             console.error(`Error al eliminar la noticia del periodista con el id= ${idPeriodista}, `, error);     
+        }
+    } */
+
+    async getNoticiasByIdRecurso(idRecurso: number): Promise<Noticia[] | undefined> {
+        try {
+        const noticias = await this.getNoticias();
+        const noticiasRecurso: Noticia[] = [];
+        for (let noticia of noticias) {
+            if(noticia.recursos && Array.isArray(noticia.recursos)){
+                for(let p of noticia.periodistas){
+                    if(p.id === idRecurso){
+                        const nuevaNoticia = {
+                            id: noticia.id,
+                            titulo: noticia.titulo,
+                            texto: noticia.texto,
+                            recursos: noticia.recursos
+                        };
+                        console.log(nuevaNoticia);
+                        noticiasRecurso.push(nuevaNoticia);
+                    }
+                }
+            }
+        }    
+        return noticiasRecurso; 
+        } catch (error) {
+           console.error("Error al obtener la noticia: ", error);
+           throw error; 
+        }
+    }
+    async deleteRecurso(idRecurso: number): Promise<void> {
+        try {
+            const noticias = await this.getNoticiasByIdRecurso(idRecurso);
+            if(noticias.length === 1){
+                await executeQuery(`delete from recursos where id=${idRecurso}`);
+            }else{
+                console.log("No se puede eliminar el recurso esta asociado a varias noticias");   
+            }
+        } catch (error) {
+            console.error("Error al eliminar el recurso: ", error);
         }
     }
 

@@ -89,14 +89,6 @@ export default class PeriodistasRepositoryPostgres implements PeriodistasReposit
         }
     }
 
-    async deleteRecurso(idRecurso: number): Promise<void> {
-        try {
-            await executeQuery(`delete from recursos where id=${idRecurso}`);
-
-        } catch (error) {
-            console.error("Error al eliminar el recurso: ", error);
-        }
-    }
 
 }
 

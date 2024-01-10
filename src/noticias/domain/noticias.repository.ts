@@ -7,5 +7,6 @@ export default interface NoticiasRepository{
     createNoticia(noticia: Noticia): Promise<Noticia | undefined>;
     deleteNoticia(id: string): Promise<Noticia[] | undefined>;
     getNoticiasByIdPeriodista(idPeriodista: number): Promise<Noticia[] | undefined>;
-    deleteNoticiasByIdPeriodista(idPeriodista: number): Promise<void>;
+   // deleteNoticiasByIdPeriodista(idPeriodista: number): Promise<void>;
+    deleteRecurso(idRecurso: number): Promise<void>; 
 }
